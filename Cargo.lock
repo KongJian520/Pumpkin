@@ -3419,6 +3419,7 @@ dependencies = [
 name = "pumpkin-wasm-host-common"
 version = "0.2.1+26.3-26.51"
 dependencies = [
+ "bytes",
  "ed25519-dalek",
  "hex",
  "hyper",
@@ -3428,6 +3429,7 @@ dependencies = [
  "pumpkin-data",
  "pumpkin-inventory",
  "pumpkin-plugin-runtime",
+ "pumpkin-protocol",
  "pumpkin-util",
  "pumpkin-world",
  "serde",
@@ -3436,6 +3438,7 @@ dependencies = [
  "tokio",
  "tracing",
  "tracing-serde-structured",
+ "uuid",
  "wasm-encoder 0.262.0",
  "wasmparser 0.262.0",
  "wasmtime",

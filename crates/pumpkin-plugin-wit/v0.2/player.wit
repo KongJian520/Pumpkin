@@ -1400,6 +1400,20 @@ interface player {
         packs: list<bedrock-resource-pack-entry>,
     }
 
+    /// A signed property attached to a Java player profile, including skin textures.
+    record profile-property {
+        name: string,
+        value: string,
+        signature: option<string>,
+    }
+
+    /// A client-side player profile. Register it before sending a player entity spawn.
+    record player-profile {
+        id: uuid,
+        name: string,
+        properties: list<profile-property>,
+    }
+
     /// A handle to a player connected via the Java Edition.
     resource java-player {
         /// Returns the Minecraft Java Edition version of the player.
@@ -1413,6 +1427,13 @@ interface player {
 
         /// Returns the player's configuration settings.
         get-settings: func() -> java-player-settings;
+
+        /// Registers a client-side player profile without listing it in the Tab menu.
+        /// Names must be 1-16 ASCII letters, digits, or underscores. Signatures are
+        /// forwarded as supplied; this does not authenticate the profile's identity.
+        /// This does not create an entity or a server-side player. Remove the profile
+        /// with the remove-player-info packet after removing the associated entity.
+        send-player-profile: func(profile: player-profile) -> result<_, string>;
 
         /// Sends a Java-specific clientbound packet to the player.
         send-packet: async func(packet: java-packet);

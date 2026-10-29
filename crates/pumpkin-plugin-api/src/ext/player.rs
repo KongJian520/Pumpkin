@@ -159,6 +159,27 @@ impl PlayerCooldownExt for Player {
     }
 }
 
+/// Skin and profile data for client-side Java player entities.
+///
+/// Register the profile before spawning its player entity. The entry is hidden
+/// from the visible Tab list; it stays in the client's profile cache until a
+/// `CRemovePlayerInfo` packet removes it. This does not create an online player.
+///
+/// ```rust,ignore
+/// use pumpkin_plugin_api::player::{PlayerProfile, ProfileProperty};
+///
+/// java_player.send_player_profile(&PlayerProfile {
+///     id: npc_id,
+///     name: "LobbyGuide".into(),
+///     properties: vec![ProfileProperty {
+///         name: "textures".into(),
+///         value: signed_texture_value,
+///         signature: Some(texture_signature),
+///     }],
+/// })?;
+/// ```
+pub use crate::wit::pumpkin::plugin::player::{PlayerProfile, ProfileProperty};
+
 #[cfg(test)]
 mod tests {
     use crate::{CustomStatistic, StatisticCategory};

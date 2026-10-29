@@ -6,6 +6,7 @@
 pub mod args;
 pub mod concurrent_store;
 pub mod logging;
+pub mod player_profile;
 pub mod plugin;
 pub mod scheduler;
 pub mod signature;

@@ -150,7 +150,7 @@ pub use enchantment::{
 };
 pub use entity_statuses_wit::EntityStatus;
 pub use events::{EventHandler, FromIntoEvent};
-pub use ext::player::{PlayerCooldownExt, PlayerEnderChestExt};
+pub use ext::player::{PlayerCooldownExt, PlayerEnderChestExt, PlayerProfile, ProfileProperty};
 pub use game_events_wit::GameEvent;
 pub use inventory::{Inventory, PlayerInventory};
 pub use item::{IntoItemKey, Item, ItemStackExt};

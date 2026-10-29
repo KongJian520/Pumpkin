@@ -3538,6 +3538,38 @@ impl pumpkin::plugin::player::HostPlayerWithStore<PluginHostState> for HasSelf<P
 }
 
 impl pumpkin::plugin::player::HostJavaPlayer for PluginHostState {
+    fn send_player_profile(
+        &mut self,
+        player: Resource<pumpkin::plugin::player::JavaPlayer>,
+        profile: pumpkin::plugin::player::PlayerProfile,
+    ) -> wasmtime::Result<Result<(), String>> {
+        let player = self.get(&player)?;
+        let Some(client) = player.client.java() else {
+            return Ok(Err("Player is not connected through Java Edition".into()));
+        };
+        let properties = profile
+            .properties
+            .into_iter()
+            .map(|property| Property {
+                name: property.name.into(),
+                value: property.value.into(),
+                signature: property.signature.map(Into::into),
+            })
+            .collect::<Vec<_>>();
+        let id = uuid::Uuid::from_u64_pair(profile.id.high, profile.id.low);
+        match pumpkin_wasm_host_common::player_profile::encode_profile(
+            id,
+            &profile.name,
+            &properties,
+        ) {
+            Ok(bytes) => {
+                client.try_enqueue_packet_data(bytes);
+                Ok(Ok(()))
+            }
+            Err(error) => Ok(Err(error)),
+        }
+    }
+
     fn get_version(
         &mut self,
         player: Resource<pumpkin::plugin::player::JavaPlayer>,
